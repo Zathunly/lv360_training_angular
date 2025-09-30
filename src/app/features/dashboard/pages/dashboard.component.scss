@@ -1,0 +1,49 @@
+/* Basic dashboard container */
+:host {
+  display: block;
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  color: #333;
+}
+
+/* Header */
+h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #1e3a8a; /* Indigo */
+}
+
+/* Highlighted paragraph using directive */
+p[appHighlight] {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+/* Button styling */
+app-button button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #2563eb;
+  color: #fff;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+app-button button:hover {
+  background-color: #1d4ed8;
+  transform: scale(1.05);
+}
+
+/* Example for other content */
+p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
