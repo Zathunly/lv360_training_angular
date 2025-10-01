@@ -1,0 +1,17 @@
+<div class="dashboard-main">
+  <h1>Dashboard</h1>
+  <div class="dashboard-header">
+    <app-button 
+        variant="primary"     
+        type="button"        
+        (click)="goToAddProduct()" 
+        label="Add Product">
+    </app-button>
+  </div>
+
+  <app-product-table
+    [products]="products"
+    (edit)="onEdit($event)"
+    (delete)="onDelete($event)">
+  </app-product-table>
+</div>

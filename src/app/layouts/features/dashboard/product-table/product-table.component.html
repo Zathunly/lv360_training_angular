@@ -1,0 +1,21 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th class="col-id">ID</th>
+      <th class="col-name">Name</th>
+      <th class="col-price">Price</th>
+      <th class="col-actions">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products">
+      <td>{{ product.id }}</td>
+      <td>{{ product.name }}</td>
+      <td>{{ product.price | currency }}</td>
+      <td class="actions">
+        <app-button variant="secondary" (click)="onEdit(product)" label="Edit"></app-button>
+        <app-button variant="danger" type="button" (click)="onDelete(product.id)" label="Delete"></app-button>
+      </td>
+    </tr>
+  </tbody>
+</table>

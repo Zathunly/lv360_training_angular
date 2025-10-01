@@ -11,13 +11,13 @@ export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
 
   return auth.checkSession().pipe(
     map((res: MeResponse) => {
-      if (!res?.authenticated) {
+      if (!res || !res.username) {
         router.navigate(['/login']);
         return false;
       }
 
       if (expectedRoles.length > 0) {
-        const hasRole = res.roles?.some(r => expectedRoles.includes(r));
+        const hasRole = (res.roles || []).some(r => expectedRoles.includes(r));
         if (!hasRole) {
           router.navigate(['/login']); 
           return false;
@@ -27,7 +27,7 @@ export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
       return true;
     }),
     catchError(() => {
-      router.navigate(['/login']); 
+      router.navigate(['/login']);
       return of(false);
     })
   );

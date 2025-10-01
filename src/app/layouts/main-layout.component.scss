@@ -1,0 +1,14 @@
+.layout {
+  display: flex;
+  height: 100vh;
+
+  app-sidebar {
+    flex-shrink: 0;
+  }
+
+  main {
+    flex: 1;
+    padding: 1rem;
+    transition: margin-left 0.3s ease;
+  }
+}

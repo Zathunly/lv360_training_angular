@@ -1,0 +1,33 @@
+<form (ngSubmit)="onSubmit()">
+  <div *ngFor="let field of fields">
+    <ng-container [ngSwitch]="field.type">
+
+      <!-- text/number -->
+      <input *ngSwitchCase="'text'"
+             [(ngModel)]="model[field.name]"
+             [name]="field.name"
+             [placeholder]="field.placeholder"
+             [required]="!!field.required" />
+
+      <input *ngSwitchCase="'number'"
+             type="number"
+             [(ngModel)]="model[field.name]"
+             [name]="field.name"
+             [placeholder]="field.placeholder"
+             [required]="!!field.required" />
+
+      <!-- select -->
+      <select *ngSwitchCase="'select'"
+              [(ngModel)]="model[field.name]"
+              [name]="field.name"
+              [required]="!!field.required">
+        <option *ngFor="let opt of field.options" [value]="opt.value">
+          {{ opt.label }}
+        </option>
+      </select>
+
+    </ng-container>
+  </div>
+
+  <button type="submit">Submit</button>
+</form>

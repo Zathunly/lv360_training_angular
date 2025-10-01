@@ -1,11 +1,15 @@
 import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common'; 
 
 @Component({
   selector: 'app-button',
   standalone: true,
-  template: `<button [ngClass]="type">{{ label }}</button>`,
+  imports: [CommonModule], 
+  templateUrl: './button.component.html',
+  styleUrls: ['./button.component.scss']
 })
 export class ButtonComponent {
   @Input() label = '';
-  @Input() type = '';
+  @Input() type: 'button' | 'submit' | 'reset' = 'button';
+  @Input() variant: 'primary' | 'secondary' | 'danger' = 'primary';
 }

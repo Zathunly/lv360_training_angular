@@ -10,7 +10,6 @@ export interface LoginResponse {
 }
 
 export interface MeResponse {
-  authenticated: boolean;
   username?: string;
   roles: string[];
   expiresAt?: string | null;
