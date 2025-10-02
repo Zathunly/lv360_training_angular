@@ -1,12 +1,21 @@
 <div class="sidebar" [class.collapsed]="collapsed">
-  <button class="toggle-btn" (click)="toggleSidebar()">
-    {{ collapsed ? '>>' : '<<' }}
+  <!-- Toggle button uses icon from TS -->
+  <button class="toggle-btn" (click)="toggleSidebar()" aria-label="Toggle Sidebar">
+    <i [class]="toggleIcon"></i>
   </button>
 
-    <ul>
+  <ul class="menu">
     <li *ngFor="let item of menuItems">
-        <a *ngIf="!collapsed" [routerLink]="item.link">{{ item.label }}</a>
+      <a
+        [routerLink]="item.link"
+        [title]="collapsed ? item.label : ''"
+        [class.disabled]="collapsed"
+        (click)="collapsed && $event.preventDefault()"
+      >
+        <!-- Icon fully from TS -->
+        <i [class]="item.icon"></i>
+        <span *ngIf="!collapsed">{{ item.label }}</span>
+      </a>
     </li>
-    </ul>
-
+  </ul>
 </div>

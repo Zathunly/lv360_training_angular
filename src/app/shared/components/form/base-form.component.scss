@@ -6,17 +6,21 @@ form {
   margin: 0 auto;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 
-  input {
+  input,
+  select {
+    width: 100%;            // ensures full width
+    box-sizing: border-box; // include padding and border in width
     padding: 10px 12px;
     border: 1px solid #d1d5db; // gray-300
     border-radius: 6px;
     font-size: 0.95rem;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
 
     &:focus {
       border-color: #2563eb; // blue-600
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
       outline: none;
+      background-color: #f9fbff;
     }
 
     &:invalid:required {
@@ -24,7 +28,17 @@ form {
     }
   }
 
+  select {
+    appearance: none;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3E%3Cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 8px 10px;
+  }
+
   button {
+    width: 100%;
     padding: 10px 14px;
     border: none;
     border-radius: 6px;
@@ -33,7 +47,7 @@ form {
     font-weight: 600;
     font-size: 0.95rem;
     cursor: pointer;
-    transition: background-color 0.15s ease;
+    transition: background-color 0.15s ease, transform 0.1s ease;
 
     &:hover {
       background-color: #1e40af; // blue-800

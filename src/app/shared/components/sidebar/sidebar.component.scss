@@ -1,47 +1,118 @@
 .sidebar {
-  width: 200px;
-  background: #2c3e50;
-  color: white;
+  display: flex;
+  flex-direction: column;
+  width: 220px;
   height: 100vh;
-  padding: 10px;
-  transition: width 0.3s ease;
+  padding: 15px 10px;
+  background: #1e272e;
+  color: #fff;
+  transition: width 0.3s ease, background 0.3s ease;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+
+  /* Ensure padding is included in width calculations */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
 
   &.collapsed {
-    width: 60px;
+    width: 70px;
 
-    ul li a {
+    /* Hide icons and labels */
+    ul.menu li a span,
+    ul.menu li a i {
+      display: none;
+    }
+
+    /* Disable menu links */
+    ul.menu li a {
+      width: 100%;
       text-align: center;
-      display: block;
+      pointer-events: none; 
+      opacity: 0.6;         
+      cursor: not-allowed;  
     }
   }
 
+  /* Toggle Button */
   .toggle-btn {
     background: none;
     border: none;
-    color: white;
+    color: #fff;
     cursor: pointer;
-    margin-bottom: 10px;
-    float: right;   
+    align-self: flex-end;
+    font-size: 1.4rem;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #2f3b44;
+      color: #fff;
+      transform: scale(1.1);
+    }
   }
 
-  ul {
+  /* Menu */
+  ul.menu {
     list-style: none;
     padding: 0;
+    margin-top: 20px;
+    flex: 1;
 
     li {
-      margin: 10px 0;
+      margin: 12px 0;
 
       a {
-        color: white;
+        display: flex;          
+        align-items: center;   
+        width: 100%; 
+        padding: 10px 12px;
+        border-radius: 8px;
+        color: #fff;
         text-decoration: none;
-        display: block;
-        padding: 5px;
-        border-radius: 4px;
+        pointer-events: auto; 
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;        
+        white-space: nowrap;      
+        text-overflow: ellipsis;  
 
         &:hover {
-          background: #34495e;
+          background: #2f3b44;
+        }
+
+        i {
+          margin-right: 12px;   
+          flex-shrink: 0;       
+          min-width: 22px;     
+          text-align: center;
+          font-size: 1.1rem;
+        }
+
+        span {
+          display: inline-block;
+          font-size: 1rem;
+          font-weight: 500;
         }
       }
     }
+  }
+
+  /* Modern scrollbar */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #34495e;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
   }
 }
