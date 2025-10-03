@@ -1,52 +1,42 @@
-import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { BaseModalComponent } from '../../../../shared/components/modal/base-modal.component';
-
-export interface Product {
-  id: number;
-  name: string;
-  price: number;
-}
+import { ProductService } from '../../../../core/services/product/product.service';
+import { ProductListItem } from '../../../../core/services/product/product.types';
 
 @Component({
   selector: 'app-product-table',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, BaseModalComponent],
+  imports: [CommonModule, ButtonComponent],
   templateUrl: './product-table.component.html',
   styleUrls: ['./product-table.component.scss']
 })
-export class ProductTableComponent {
-  @Input() products: Product[] = [];
-  @Output() edit = new EventEmitter<Product>();
-  @Output() delete = new EventEmitter<number>();
+export class ProductTableComponent implements OnInit {
+  products: ProductListItem[] = [];
 
-  @ViewChild('deleteModal') deleteModal!: BaseModalComponent;
+  constructor(private productService: ProductService) {}
 
-  // Make nullable to avoid TS error
-  private deletingProductId: number | null = null;
-
-  onEdit(product: Product) {
-    this.edit.emit(product);
+  ngOnInit() {
+    this.loadProducts();
   }
 
-  // Open modal and store product id
-  openDeleteModal(id: number) {
-    this.deletingProductId = id;
-    this.deleteModal.open();
+  loadProducts() {
+    this.productService.getProducts().subscribe({
+      next: (res) => this.products = res,
+      error: (err) => console.error('Error fetching products:', err),
+    });
   }
 
-  // Confirm delete from modal
-  confirmDelete() {
-    if (this.deletingProductId !== null) {
-      this.delete.emit(this.deletingProductId);
-      this.deleteModal.close();
-      this.deletingProductId = null;
-    }
+  onEdit(product: ProductListItem) {
+    console.log('Edit product:', product);
   }
 
-  // Reset product id when modal closes without deletion
-  onModalClosed() {
-    this.deletingProductId = null;
+  onDelete(id: number) {
+    this.productService.deleteProduct(id).subscribe({
+      next: () => {
+        this.products = this.products.filter((p) => p.id !== id);
+      },
+      error: (err) => console.error('Error deleting product:', err),
+    });
   }
 }

@@ -7,7 +7,7 @@ import { BaseFormComponent, BaseFormField } from '../../../../shared/components/
 @Component({
   selector: 'app-add-product-form',
   standalone: true,
-  imports: [BaseFormComponent], // 👈 add this
+  imports: [BaseFormComponent], 
   template: `
     <h2>Add Product</h2>
     <app-base-form

@@ -23,7 +23,7 @@ export class LoginComponent {
     this.auth.login({ username: this.username, password: this.password }).subscribe({
       next: (res: LoginResponse) => {
         if (res.roles.includes('Admin')) {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/product']);
         } else {
           this.router.navigate(['/home']);
         }

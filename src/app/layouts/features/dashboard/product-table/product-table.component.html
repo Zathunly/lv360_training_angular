@@ -17,20 +17,10 @@
         <app-button 
           variant="danger" 
           type="button" 
-          (click)="openDeleteModal(product.id)" 
+          (click)="onDelete(product.id)" 
           label="Delete">
         </app-button>
       </td>
     </tr>
   </tbody>
 </table>
-
-<!-- Delete Confirmation Modal -->
-<app-base-modal #deleteModal (closed)="onModalClosed()">
-  <h3>Confirm Delete</h3>
-  <p>Are you sure you want to delete this product?</p>
-  <div class="modal-buttons">
-    <app-button variant="secondary" class="btn cancel" (click)="deleteModal.close()" label="Cancel"></app-button>
-    <app-button variant="danger" class="btn delete" (click)="confirmDelete()" label="Confirm"></app-button>
-  </div>
-</app-base-modal>
