@@ -1,0 +1,71 @@
+.dashboard {
+  padding: 20px;
+
+  .title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #2f3640;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+
+    .card {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: translateY(-3px);
+      }
+
+      h3 {
+        font-size: 1rem;
+        color: #718093;
+        margin-bottom: 8px;
+      }
+
+      p {
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #2f3640;
+      }
+    }
+  }
+
+  .recent-activity {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+    h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #2f3640;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        padding: 6px 0;
+        border-bottom: 1px solid #ecf0f1;
+        color: #576574;
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+}

@@ -1,13 +1,15 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './layouts/features/auth/login/login.component';
-import { RegisterComponent } from './layouts/features/auth/register/register.component';
-import { MainLayoutComponent } from './layouts/main-layout.component';
-import { DashboardComponent } from './layouts/features/dashboard/dashboard.component';
-import { ProductTableComponent } from './layouts/features/dashboard/product-table/product-table.component';
-import { AddProductFormComponent } from './layouts/features/dashboard/product-form/add-product-form.component';
+import { LoginComponent } from './layouts/auth/login/login.component';
+import { RegisterComponent } from './layouts/auth/register/register.component';
+import { MainLayoutComponent } from './layouts/admin/main-layout.component';
+import { DashboardComponent } from './layouts/admin/dashboard/dashboard.component';
+import { ProductTableComponent } from './layouts/admin/catalog/product/product-table/product-management.component';
+import { AddProductFormComponent } from './layouts/admin/catalog/product/product-form/add-product-form.component';
+import { ProductComponent } from './layouts/admin/catalog/product/product.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
+
   { path: 'login', component: LoginComponent, data: { breadcrumb: 'Login' } },
   { path: 'register', component: RegisterComponent, data: { breadcrumb: 'Register' } },
 
@@ -16,23 +18,46 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       {
-        path: 'product',
-        component: DashboardComponent, 
-        data: { breadcrumb: 'Product' },
+        path: 'dashboard',
+        component: DashboardComponent,
+        data: { breadcrumb: 'Dashboard' },
+      },
+      {
+        path: 'catalog',
+        data: { breadcrumb: 'Catalog' },
         children: [
           {
-            path: '',
-            component: ProductTableComponent,
+            path: 'products',
+            component: ProductComponent,
+            data: { breadcrumb: 'Products' },
+            children: [
+              {
+                path: '',
+                component: ProductTableComponent,
+                data: { breadcrumb: 'Products' },
+              },
+              {
+                path: 'add',
+                component: AddProductFormComponent,
+                data: { breadcrumb: 'Add Product' },
+              },
+            ],
           },
-          {
-            path: 'add',
-            component: AddProductFormComponent,
-            data: { breadcrumb: 'Add Product' }
-          }
-        ]
-      }
-    ]
+          // {
+          //   path: 'stocks',
+          //   component: StockListComponent,
+          //   data: { breadcrumb: 'Stocks' },
+          // },
+        ],
+      },
+      // {
+      //   path: 'profile',
+      //   component: ProfileComponent,
+      //   data: { breadcrumb: 'Profile' },
+      // },
+    ],
   },
 
-  { path: '**', redirectTo: 'login' }
+  // Wildcard fallback
+  { path: '**', redirectTo: 'login' },
 ];

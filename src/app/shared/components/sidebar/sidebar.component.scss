@@ -8,31 +8,27 @@
   color: #fff;
   transition: width 0.3s ease, background 0.3s ease;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
 
-  /* Ensure padding is included in width calculations */
   *, *::before, *::after {
     box-sizing: border-box;
   }
 
+  /* Collapsed mode */
   &.collapsed {
     width: 70px;
+    align-items: center;
+    padding: 15px 0;
 
-    /* Hide icons and labels */
-    ul.menu li a span,
-    ul.menu li a i {
+    .toggle-btn {
+      margin-right: 5px;
+    }
+    
+    ul.menu {
       display: none;
     }
-
-    /* Disable menu links */
-    ul.menu li a {
-      width: 100%;
-      text-align: center;
-      pointer-events: none; 
-      opacity: 0.6;         
-      cursor: not-allowed;  
-    }
   }
-
+  
   /* Toggle Button */
   .toggle-btn {
     background: none;
@@ -56,7 +52,7 @@
     }
   }
 
-  /* Menu */
+  /* Main Menu */
   ul.menu {
     list-style: none;
     padding: 0;
@@ -64,45 +60,103 @@
     flex: 1;
 
     li {
-      margin: 12px 0;
+      margin: 6px 0;
+      position: relative;
 
-      a {
-        display: flex;          
-        align-items: center;   
-        width: 100%; 
+      /* Parent menu link */
+      .menu-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
         padding: 10px 12px;
         border-radius: 8px;
         color: #fff;
         text-decoration: none;
-        pointer-events: auto; 
         transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;        
-        white-space: nowrap;      
-        text-overflow: ellipsis;  
+        cursor: pointer;
 
         &:hover {
           background: #2f3b44;
         }
 
         i {
-          margin-right: 12px;   
-          flex-shrink: 0;       
-          min-width: 22px;     
+          margin-right: 12px;
+          flex-shrink: 0;
+          min-width: 22px;
           text-align: center;
           font-size: 1.1rem;
         }
 
         span {
-          display: inline-block;
+          flex: 1;
           font-size: 1rem;
           font-weight: 500;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+
+        .submenu-arrow {
+          font-size: 0.8rem;
+          margin-left: auto;
+          transition: transform 0.3s ease;
+        }
+
+        &.active {
+          background: #34495e;
+        }
+      }
+
+      /* Submenu (child list) */
+      ul.submenu {
+        list-style: none;
+        padding-left: 25px;
+        margin: 5px 0;
+        border-radius: 4px;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+
+        li {
+          a {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            border-radius: 6px;
+            color: #dcdcdc;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.25s ease;
+
+            &:hover {
+              background: #2f3b44;
+              color: #fff;
+            }
+
+            &.active {
+              background: #465a6e;
+              color: #fff;
+            }
+
+            i {
+              margin-right: 10px;
+              min-width: 20px;
+              text-align: center;
+              font-size: 0.95rem;
+            }
+
+            span {
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
         }
       }
     }
   }
 
-  /* Modern scrollbar */
+  /* Scrollbar */
   &::-webkit-scrollbar {
     width: 6px;
   }

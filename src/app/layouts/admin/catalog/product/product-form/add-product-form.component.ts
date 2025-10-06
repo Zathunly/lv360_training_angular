@@ -1,21 +1,15 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ProductService } from '../../../../core/services/product/product.service';
-import { CategoryService } from '../../../../core/services/category/category.service';
-import { CreateProductRequest } from '../../../../core/services/product/product.types';
-import { BaseFormComponent, BaseFormField } from '../../../../shared/components/form/base-form.component';
+import { ProductService } from '../../../../../core/services/product/product.service';
+import { CategoryService } from '../../../../../core/services/category/category.service';
+import { CreateProductRequest } from '../../../../../core/services/product/product.types';
+import { BaseFormComponent, BaseFormField } from '../../../../../shared/components/form/base-form.component';
 
 @Component({
   selector: 'app-add-product-form',
   standalone: true,
   imports: [BaseFormComponent], 
-  template: `
-    <h2>Add Product</h2>
-    <app-base-form
-      [fields]="fields"
-      [model]="model"
-      (submitted)="onSubmit($event)">
-    </app-base-form>
-  `,
+  templateUrl: './add-product-form.component.html',
+  // styles: '.add-product-form.component.scss'
 })
 export class AddProductFormComponent implements OnInit {
   fields: BaseFormField[] = [];

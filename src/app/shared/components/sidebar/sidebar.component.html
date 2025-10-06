@@ -1,21 +1,47 @@
-<div class="sidebar" [class.collapsed]="collapsed">
-  <!-- Toggle button uses icon from TS -->
+<div class="sidebar" [class.collapsed]="collapsed" [attr.aria-expanded]="!collapsed">
+  <!-- Toggle -->
   <button class="toggle-btn" (click)="toggleSidebar()" aria-label="Toggle Sidebar">
     <i [class]="toggleIcon"></i>
   </button>
 
   <ul class="menu">
-    <li *ngFor="let item of menuItems">
-      <a
-        [routerLink]="item.link"
-        [title]="collapsed ? item.label : ''"
-        [class.disabled]="collapsed"
-        (click)="collapsed && $event.preventDefault()"
+    <li *ngFor="let item of menuItems" class="menu-item">
+      <!-- Parent item -->
+      <div
+        class="menu-link"
+        (click)="onMenuClick(item)"
+        [class.has-children]="item.children?.length"
       >
-        <!-- Icon fully from TS -->
         <i [class]="item.icon"></i>
         <span *ngIf="!collapsed">{{ item.label }}</span>
-      </a>
+        <i
+          *ngIf="item.children?.length && !collapsed"
+          class="submenu-arrow fas"
+          [ngClass]="{
+            'fa-chevron-down': isSubmenuOpen(item),
+            'fa-chevron-right': !isSubmenuOpen(item)
+          }"
+        ></i>
+      </div>
+
+
+      <!-- Submenu -->
+      <ul
+        *ngIf="item.children && isSubmenuOpen(item)"
+        class="submenu"
+        [class.collapsed]="collapsed"
+      >
+        <li *ngFor="let child of item.children">
+          <a
+            [routerLink]="child.link"
+            routerLinkActive="active"
+            [title]="collapsed ? child.label : ''"
+          >
+            <i [class]="child.icon"></i>
+            <span *ngIf="!collapsed">{{ child.label }}</span>
+          </a>
+        </li>
+      </ul>
     </li>
   </ul>
 </div>

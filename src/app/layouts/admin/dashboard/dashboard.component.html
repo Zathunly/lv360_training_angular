@@ -1,0 +1,20 @@
+<div class="dashboard">
+  <h2 class="title">Dashboard Overview</h2>
+
+  <div class="stats-grid">
+    <div class="card" *ngFor="let stat of stats">
+      <h3>{{ stat.title }}</h3>
+      <p>{{ stat.value }}</p>
+    </div>
+  </div>
+
+  <div class="recent-activity">
+    <h3>Recent Activity</h3>
+    <ul>
+      <li>New order received from John Doe</li>
+      <li>Product "Wireless Mouse" added to catalog</li>
+      <li>Stock updated for "Keyboard Pro"</li>
+      <li>Order #2456 marked as shipped</li>
+    </ul>
+  </div>
+</div>

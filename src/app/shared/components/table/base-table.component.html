@@ -1,0 +1,46 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th *ngFor="let col of columns">{{ col.header }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of data; trackBy: trackById">
+      <td *ngFor="let col of columns">
+        <!-- Text or Number -->
+        <ng-container *ngIf="col.type === 'text' || col.type === 'number'">
+        <input
+            *ngIf="massEditMode && col.editable !== false" 
+            [type]="col.type"
+            [(ngModel)]="row[col.field]"
+        />
+        <span *ngIf="!massEditMode || col.editable === false">{{ row[col.field] }}</span>
+        </ng-container>
+
+        <!-- Select -->
+        <ng-container *ngIf="col.type === 'select'">
+        <select *ngIf="massEditMode && col.editable !== false" [(ngModel)]="row[col.field]">
+            <option *ngFor="let opt of col.options" [value]="opt.id">
+            {{ opt.name }}
+            </option>
+        </select>
+        <span *ngIf="!massEditMode || col.editable === false">{{ getOptionName(col, row) }}</span>
+        </ng-container>
+
+        <!-- Actions -->
+        <ng-container *ngIf="col.type === 'actions' && !massEditMode">
+          <app-button
+            variant="danger"
+            (click)="delete.emit(row.id)"
+            label="Delete"
+          ></app-button>
+        </ng-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Save All Button when massEditMode -->
+<div *ngIf="massEditMode" class="mass-edit-actions">
+  <app-button variant="primary" (click)="saveAll.emit()" label="Save All"></app-button>
+</div>
