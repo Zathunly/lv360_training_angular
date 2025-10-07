@@ -1,33 +1,62 @@
-<form (ngSubmit)="onSubmit()">
-  <div *ngFor="let field of fields">
-    <ng-container [ngSwitch]="field.type">
+<ng-container *ngIf="form; else loading">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="base-form">
+    <div *ngFor="let field of fields" class="form-field">
+      <label>{{ field.placeholder }}</label>
 
-      <!-- text/number -->
-      <input *ngSwitchCase="'text'"
-             [(ngModel)]="model[field.name]"
-             [name]="field.name"
-             [placeholder]="field.placeholder"
-             [required]="!!field.required" />
+      <input
+        *ngIf="field.type !== 'select' && field.type !== 'textarea'"
+        [type]="field.type"
+        [formControlName]="field.name"
+        [placeholder]="field.placeholder"
+        [class.invalid]="
+          getControl(field.name)?.touched && getControl(field.name)?.invalid
+        "
+      />
 
-      <input *ngSwitchCase="'number'"
-             type="number"
-             [(ngModel)]="model[field.name]"
-             [name]="field.name"
-             [placeholder]="field.placeholder"
-             [required]="!!field.required" />
+      <textarea
+        *ngIf="field.type === 'textarea'"
+        [formControlName]="field.name"
+        [placeholder]="field.placeholder"
+        [class.invalid]="
+          getControl(field.name)?.touched && getControl(field.name)?.invalid
+        "
+      ></textarea>
 
-      <!-- select -->
-      <select *ngSwitchCase="'select'"
-              [(ngModel)]="model[field.name]"
-              [name]="field.name"
-              [required]="!!field.required">
+      <select
+        *ngIf="field.type === 'select'"
+        [formControlName]="field.name"
+        [class.invalid]="
+          getControl(field.name)?.touched && getControl(field.name)?.invalid
+        "
+      >
+        <option value="">Select...</option>
         <option *ngFor="let opt of field.options" [value]="opt.value">
           {{ opt.label }}
         </option>
       </select>
 
-    </ng-container>
-  </div>
+      <div
+        class="error"
+        *ngIf="
+          getControl(field.name)?.touched && getControl(field.name)?.invalid
+        "
+      >
+        <small *ngIf="getControl(field.name)?.errors?.['required']">
+          {{ field.placeholder }} is required
+        </small>
+        <small *ngIf="getControl(field.name)?.errors?.['minlength']">
+          Minimum length: {{ field.minLength }}
+        </small>
+        <small *ngIf="getControl(field.name)?.errors?.['min']">
+          Must be at least {{ field.min }}
+        </small>
+      </div>
+    </div>
 
-  <button type="submit">Submit</button>
-</form>
+    <button type="submit" [disabled]="form.invalid">Submit</button>
+  </form>
+</ng-container>
+
+<ng-template #loading>
+  <div class="loading">Loading form...</div>
+</ng-template>

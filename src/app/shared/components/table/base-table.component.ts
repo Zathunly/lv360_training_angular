@@ -23,7 +23,7 @@ export class BaseTableComponent {
   @Input() data: any[] = [];
   @Input() massEditMode = false;
 
-  @Output() saveAll = new EventEmitter<void>();
+  @Output() saveAll = new EventEmitter<any[]>();
   @Output() delete = new EventEmitter<number>();
 
   trackById(index: number, item: any) {

@@ -6,7 +6,7 @@ export interface ProductListItem {
   price: number;
   categoryId: number; 
 }
-
+  
 export interface ProductDetail {
   id: number;
   name: string;

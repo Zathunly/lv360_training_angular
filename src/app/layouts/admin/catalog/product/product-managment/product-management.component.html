@@ -15,9 +15,9 @@
 
 <app-base-table
   [columns]="columns"
-  [data]="products"
+  [data]="(products$ | async) || []"
   [massEditMode]="massEditMode"
-  (saveAll)="saveAllChanges()"
+  (saveAll)="saveAllChanges($event)"
   (delete)="openDeleteModal($event)"
 ></app-base-table>
 

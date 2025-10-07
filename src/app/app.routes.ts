@@ -3,7 +3,7 @@ import { LoginComponent } from './layouts/auth/login/login.component';
 import { RegisterComponent } from './layouts/auth/register/register.component';
 import { MainLayoutComponent } from './layouts/admin/main-layout.component';
 import { DashboardComponent } from './layouts/admin/dashboard/dashboard.component';
-import { ProductTableComponent } from './layouts/admin/catalog/product/product-table/product-management.component';
+import { ProductTableComponent } from './layouts/admin/catalog/product/product-managment/product-management.component';
 import { AddProductFormComponent } from './layouts/admin/catalog/product/product-form/add-product-form.component';
 import { ProductComponent } from './layouts/admin/catalog/product/product.component';
 

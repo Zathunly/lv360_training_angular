@@ -1,4 +1,3 @@
-// src/app/services/category.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -13,18 +12,18 @@ export class CategoryService {
   constructor(private http: HttpClient) {}
 
   getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.categoryEndpoint);
+    return this.http.get<Category[]>(this.categoryEndpoint, { withCredentials: true });
   }
 
   addCategory(category: CreateCategoryRequest): Observable<Category> {
-    return this.http.post<Category>(this.categoryEndpoint, category);
+    return this.http.post<Category>(this.categoryEndpoint, category, { withCredentials: true });
   }
 
   updateCategory(id: number, category: UpdateCategoryRequest): Observable<Category> {
-    return this.http.put<Category>(`${this.categoryEndpoint}/${id}`, category);
+    return this.http.put<Category>(`${this.categoryEndpoint}/${id}`, category, { withCredentials: true });
   }
 
   deleteCategory(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.categoryEndpoint}/${id}`);
+    return this.http.delete<void>(`${this.categoryEndpoint}/${id}`, { withCredentials: true });
   }
 }
