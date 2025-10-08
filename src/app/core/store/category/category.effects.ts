@@ -5,7 +5,7 @@ import { CategoryService } from '../../services/category/category.service';
 import { CategoryActions } from './category.actions';
 import { mergeMap, map, catchError, of } from 'rxjs';
 
-@Injectable() // Không cần providedIn: 'root', EffectsModule sẽ cung cấp
+@Injectable() 
 export class CategoryEffects {
   constructor(
     private actions$: Actions,

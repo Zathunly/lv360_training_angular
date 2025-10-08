@@ -1,9 +1,8 @@
 :host {
   display: block;
   background-color: #fff;
-  border-radius: 0.75rem;
+  border-radius: 8px;
   padding: 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
@@ -18,27 +17,26 @@
 .form-field {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.5rem;
 
   label {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: #333;
+    font-weight: normal;
+    font-size: 1rem;
+    color: #000;
   }
 
   input,
   select,
   textarea {
-    padding: 0.7rem 0.9rem;
+    padding: 0.5rem 0.75rem;
     border: 1px solid #ccc;
-    border-radius: 0.5rem;
-    font-size: 0.95rem;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
 
     &:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
       outline: none;
+      border-color: #007bff;
     }
 
     &.invalid {
@@ -47,42 +45,29 @@
     }
   }
 
-  select {
-    background-color: #fff;
-  }
-
   textarea {
     resize: vertical;
     min-height: 80px;
   }
 
   .error {
-    margin-top: 0.25rem;
     color: #e74c3c;
-    font-size: 0.8rem;
-    font-weight: 500;
-    line-height: 1.2;
+    font-size: 0.85rem;
   }
 }
 
 button[type='submit'] {
-  align-self: flex-end;
-  padding: 0.7rem 1.5rem;
+  align-self: flex-start;
+  padding: 0.5rem 1rem;
   background-color: #007bff;
   color: #fff;
   border: none;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  font-size: 0.95rem;
+  border-radius: 4px;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
 
   &:hover:not(:disabled) {
-    background-color: #0069d9;
-  }
-
-  &:active:not(:disabled) {
-    transform: scale(0.98);
+    background-color: #0056b3;
   }
 
   &:disabled {

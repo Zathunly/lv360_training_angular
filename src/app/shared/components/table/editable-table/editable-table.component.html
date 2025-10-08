@@ -1,0 +1,58 @@
+<table>
+  <thead>
+    <tr>
+      <th *ngFor="let col of columns">{{ col.header }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of data; let i = index; trackBy: trackById">
+      <td *ngFor="let col of columns">
+        <ng-container [ngSwitch]="col.type">
+
+          <!-- TEXT INPUT -->
+          <ng-container *ngSwitchCase="'text'">
+            <ng-container *ngIf="massEditMode && col.editable !== false; else readonlyText">
+              <input [(ngModel)]="row[col.field]" type="text" />
+            </ng-container>
+            <ng-template #readonlyText>
+              {{ row[col.field] }}
+            </ng-template>
+          </ng-container>
+
+          <!-- NUMBER INPUT -->
+          <ng-container *ngSwitchCase="'number'">
+            <ng-container *ngIf="massEditMode && col.editable !== false; else readonlyNumber">
+              <input [(ngModel)]="row[col.field]" type="number" />
+            </ng-container>
+            <ng-template #readonlyNumber>
+              {{ row[col.field] }}
+            </ng-template>
+          </ng-container>
+
+          <!-- SELECT -->
+          <ng-container *ngSwitchCase="'select'">
+            <ng-container *ngIf="massEditMode && col.editable !== false; else readonlySelect">
+              <select [(ngModel)]="row[col.field]">
+                <option *ngFor="let opt of col.options" [value]="opt.id">
+                  {{ opt.name }}
+                </option>
+              </select>
+            </ng-container>
+            <ng-template #readonlySelect>
+              {{ getOptionName(col, row[col.field]) }}
+            </ng-template>
+          </ng-container>
+
+          <!-- ACTION BUTTONS -->
+          <ng-container *ngSwitchCase="'actions'">
+            <div class="actions">
+                <app-button variant="danger" label="Delete" (click)="deleteRow(i)"></app-button>
+                <app-button label="Edit" (click)="editRow(i)"></app-button>
+            </div>
+          </ng-container>
+
+        </ng-container>
+      </td>
+    </tr>
+  </tbody>
+</table>

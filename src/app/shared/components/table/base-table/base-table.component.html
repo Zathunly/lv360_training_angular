@@ -1,0 +1,15 @@
+<!-- base-table.component.html -->
+<table>
+  <thead>
+    <tr>
+      <th *ngFor="let col of columns">{{ col.header }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of data; trackBy: trackById">
+      <td *ngFor="let col of columns">
+        <span>{{ row[col.field] }}</span>
+      </td>
+    </tr>
+  </tbody>
+</table>

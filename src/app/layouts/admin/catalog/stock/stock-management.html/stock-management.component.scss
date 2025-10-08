@@ -1,0 +1,28 @@
+.table-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  .mass-edit-actions {
+    display: flex;
+    gap: 0.5rem;
+
+    app-button {
+      min-width: 100px;
+    }
+  }
+
+  app-button {
+    min-width: 100px;
+  }
+}
+
+:host {
+  display: block;
+}
+
+app-base-table {
+  display: block;
+}

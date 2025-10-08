@@ -6,9 +6,10 @@ import { Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { BaseTableComponent, BaseColumn } from '../../../../../shared/components/table/base-table.component';
+import { EditableTableComponent } from '../../../../../shared/components/table/editable-table/editable-table.component';
 import { BaseModalComponent } from '../../../../../shared/components/modal/base-modal.component';
 import { ButtonComponent } from '../../../../../shared/components/button/button.component';
+import { EditableTableColumn } from '../../../../../shared/components/table/editable-table/editable-table.component.types';
 
 import { ProductListItem } from '../../../../../core/services/product/product.types';
 import { ProductActions } from '../../../../../core/store/product/product.actions';
@@ -19,7 +20,7 @@ import { selectAllCategories, selectCategoryLoading } from '../../../../../core/
 @Component({
   selector: 'app-product-table',
   standalone: true,
-  imports: [CommonModule, FormsModule, BaseTableComponent, ButtonComponent, BaseModalComponent],
+  imports: [CommonModule, FormsModule, EditableTableComponent, ButtonComponent, BaseModalComponent],
   templateUrl: './product-management.component.html',
   styleUrls: ['./product-management.component.scss'],
 })
@@ -28,7 +29,7 @@ export class ProductTableComponent implements OnInit {
   categories$!: Observable<any[]>;
   loading$!: Observable<boolean>;
 
-  columns: BaseColumn[] = [];
+  columns: EditableTableColumn[] = [];
   massEditMode = false;
   selectedProductId: number | null = null;
 
@@ -41,7 +42,6 @@ export class ProductTableComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Initialize store streams here (AFTER constructor)
     this.products$ = this.store.select(selectAllProducts);
     this.categories$ = this.store.select(selectAllCategories);
     this.loading$ = combineLatest([
@@ -49,11 +49,9 @@ export class ProductTableComponent implements OnInit {
       this.store.select(selectCategoryLoading),
     ]).pipe(map(([p, c]) => p || c));
 
-    // Load data
     this.store.dispatch(ProductActions.loadProducts());
     this.store.dispatch(CategoryActions.loadCategories());
 
-    // Build columns after categories load
     this.categories$.subscribe(categories => {
       this.columns = [
         { field: 'id', header: 'ID', type: 'number', editable: false },
@@ -94,6 +92,14 @@ export class ProductTableComponent implements OnInit {
     this.deleteModal.open();
   }
 
+  openEdit(id: number) {
+    this.router.navigate(['edit', id], { relativeTo: this.route });
+  }
+
+  goToAddProduct() {
+    this.router.navigate(['add'], { relativeTo: this.route });
+  }
+
   confirmDelete() {
     if (!this.selectedProductId) return;
     this.store.dispatch(ProductActions.deleteProduct({ id: this.selectedProductId }));
@@ -104,7 +110,5 @@ export class ProductTableComponent implements OnInit {
     this.selectedProductId = null;
   }
 
-  goToAddProduct() {
-    this.router.navigate(['add'], { relativeTo: this.route });
-  }
+
 }

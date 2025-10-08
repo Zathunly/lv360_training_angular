@@ -11,6 +11,10 @@ import { categoryReducer } from './core/store/category/category.reducer';
 import { CategoryEffects } from './core/store/category/category.effects';
 import { productReducer } from './core/store/product/product.reducer';
 import { ProductEffects } from './core/store/product/product.effects';
+import { warehouseReducer } from './core/store/warehouse/warehouse.reducer';
+import { stockReducer } from './core/store/stock/stock.reducer';
+import { WarehouseEffects } from './core/store/warehouse/warehouse.effects';
+import { StockEffects } from './core/store/stock/stock.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,8 +23,8 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(withInterceptors([authInterceptor])),
 
-    provideStore({ categories: categoryReducer, products: productReducer }),
-    provideEffects([CategoryEffects, ProductEffects]),
+    provideStore({ warehouses: warehouseReducer, stocks: stockReducer, categories: categoryReducer, products: productReducer }),
+    provideEffects([WarehouseEffects, StockEffects, CategoryEffects, ProductEffects]),
     provideStoreDevtools(),
   ]
 };

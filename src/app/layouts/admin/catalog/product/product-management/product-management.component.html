@@ -1,4 +1,7 @@
+
+<h2>Product Management</h2>
 <div class="table-actions">
+
   <app-button
     *ngIf="!massEditMode"
     variant="primary"
@@ -13,19 +16,21 @@
   ></app-button>
 </div>
 
-<app-base-table
+<app-editable-table
   [columns]="columns"
-  [data]="(products$ | async) || []"
+  [data]="(products$ | async) ?? []"
   [massEditMode]="massEditMode"
   (saveAll)="saveAllChanges($event)"
-  (delete)="openDeleteModal($event)"
-></app-base-table>
+  (delete)="openDeleteModal($event)" 
+  (edit)="openEdit($event)"
+></app-editable-table>
+
 
 <app-base-modal #deleteModal (closed)="onModalClosed()">
   <h3>Confirm Delete</h3>
   <p>Are you sure you want to delete this product?</p>
   <div class="modal-buttons">
-    <app-button variant="secondary" label="Cancel" (click)="deleteModal.close()"></app-button>
-    <app-button variant="danger" label="Confirm" (click)="confirmDelete()"></app-button>
+    <app-button label="Cancel" variant="secondary" (click)="deleteModal.close()"></app-button>
+    <app-button label="Delete" variant="danger" (click)="confirmDelete()"></app-button>
   </div>
 </app-base-modal>
