@@ -59,7 +59,7 @@ export class StockManagementComponent implements OnInit {
             productId: matchedProduct?.id ?? null,
             warehouseId: matchedWarehouse?.id ?? null,
             productName: matchedProduct?.name ?? null,
-            warehouseName: matchedWarehouse?.name ?? null,
+            warehouseName: matchedWarehouse?.name ?? null,  
           };
         })
       )
@@ -82,11 +82,14 @@ export class StockManagementComponent implements OnInit {
         options: [],
       },
       { field: 'quantity', header: 'Quantity', type: 'number', editable: true },
-      { field: 'lastUpdatedAt', header: 'Last Updated', type: 'text', editable: false },
+      { field: 'lastUpdatedAt', 
+        header: 'Last Updated',
+        type: 'datetime',
+        editable: true,
+      },
       { field: 'actions', header: 'Actions', type: 'actions' },
     ];
 
-    // Attach options once products and warehouses are loaded
     combineLatest([products$, warehouses$]).subscribe(([products, warehouses]) => {
       const productColumn = this.columns.find(c => c.field === 'productId');
       if (productColumn) productColumn.options = products.map(p => ({ id: p.id, name: p.name }));

@@ -1,9 +1,12 @@
 <table>
   <thead>
     <tr>
-      <th *ngFor="let col of columns">{{ col.header }}</th>
+      <th *ngFor="let col of columns">
+        {{ col.header }}
+      </th>
     </tr>
   </thead>
+
   <tbody>
     <tr *ngFor="let row of data; let i = index; trackBy: trackById">
       <td *ngFor="let col of columns">
@@ -16,6 +19,20 @@
             </ng-container>
             <ng-template #readonlyText>
               {{ row[col.field] }}
+            </ng-template>
+          </ng-container>
+
+          <!-- DATETIME INPUT -->
+          <ng-container *ngSwitchCase="'datetime'">
+            <ng-container *ngIf="massEditMode && col.editable !== false; else readonlyDatetime">
+              <mat-form-field appearance="fill">
+                <input matInput [matDatepicker]="picker" [(ngModel)]="row[col.field]" placeholder="Select date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </ng-container>
+            <ng-template #readonlyDatetime>
+              {{ formatValue(col, row[col.field]) }}
             </ng-template>
           </ng-container>
 
@@ -43,11 +60,12 @@
             </ng-template>
           </ng-container>
 
+
           <!-- ACTION BUTTONS -->
           <ng-container *ngSwitchCase="'actions'">
-            <div class="actions">
-                <app-button variant="danger" label="Delete" (click)="deleteRow(i)"></app-button>
-                <app-button label="Edit" (click)="editRow(i)"></app-button>
+            <div class="actions" *ngIf="!massEditMode">
+              <app-button variant="danger" label="Delete" (click)="deleteRow(i)"></app-button>
+              <app-button label="Edit" (click)="editRow(i)"></app-button>
             </div>
           </ng-container>
 
@@ -56,3 +74,7 @@
     </tr>
   </tbody>
 </table>
+
+<div *ngIf="massEditMode" class="mass-edit-actions">
+  <app-button label="Save Changes" variant="primary" (click)="saveAllChanges()"></app-button>
+</div>

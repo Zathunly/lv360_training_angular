@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './product-form.component.html',
 })
 export class ProductFormComponent implements OnInit {
-  @Input() product?: ProductDetail; // optional, if editing
+  @Input() product?: ProductDetail; 
   @Output() submitted = new EventEmitter<void>();
 
   fields: BaseFormField[] = [];
@@ -34,7 +34,6 @@ export class ProductFormComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id'); 
 
     if (id) {
-      // EDIT mode, fetch product by id
       this.productService.getProductById(+id).subscribe(product => {
         this.product = product;
         this.model = {
@@ -62,9 +61,9 @@ export class ProductFormComponent implements OnInit {
       ];
     });
   }
+  
   onSubmit(formValue: CreateProductRequest) {
     if (this.product) {
-      // EDIT mode
       this.productService.updateProduct(this.product.id, formValue).subscribe({
         next: () => {
           console.log('Product updated successfully');
@@ -73,7 +72,6 @@ export class ProductFormComponent implements OnInit {
         error: (err) => console.error('Error updating product:', err),
       });
     } else {
-      // ADD mode
       this.productService.addProduct(formValue).subscribe({
         next: () => {
           console.log('Product added successfully');

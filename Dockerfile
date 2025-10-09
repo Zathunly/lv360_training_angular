@@ -2,10 +2,13 @@ FROM node:20-alpine
 
 WORKDIR /app
 
+# Copy package files first
 COPY package*.json ./
-RUN npm install -g @angular/cli && npm install
-RUN npm install
 
+# Install Angular CLI globally and dependencies
+RUN npm install -g @angular/cli@20 && npm install
+
+# Copy rest of project
 COPY . .
 
 EXPOSE 4200

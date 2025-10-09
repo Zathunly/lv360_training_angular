@@ -1,13 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { BaseFormComponent } from '../../../shared/components/form/base-form.component';
 import { AuthService, LoginResponse } from '../../../core/auth/auth.service';
+import { BaseFormField } from '../../../shared/components/form/base-form.component.types';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, BaseFormComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
@@ -15,12 +16,23 @@ export class LoginComponent {
   private auth = inject(AuthService);
   private router = inject(Router);
 
-  username = '';
-  password = '';
   error = '';
 
-  onSubmit() {
-    this.auth.login({ username: this.username, password: this.password }).subscribe({
+  // Define the fields for the BaseFormComponent
+  fields: BaseFormField[] = [
+    { name: 'username', type: 'text', placeholder: 'Enter your username', required: true, minLength: 3 },
+    { name: 'password', type: 'text', placeholder: 'Enter your password', required: true },
+  ];
+
+
+  // Optional: initial model values
+  model = {
+    username: '',
+    password: ''
+  };
+
+  onSubmit(value: any) {
+    this.auth.login(value).subscribe({
       next: (res: LoginResponse) => {
         if (res.roles.includes('Admin')) {
           this.router.navigate(['/dashboard']);

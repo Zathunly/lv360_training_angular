@@ -26,5 +26,22 @@ export const productReducer = createReducer(
   on(ProductActions.deleteProductSuccess, (state, { id }) => ({
     ...state,
     products: state.products.filter(p => p.id !== id)
-  }))
+  })),
+
+  on(ProductActions.addProductsBulkSuccess, (state, { products }) => ({
+    ...state,
+    products: [...state.products, ...products],
+  })),
+
+  on(ProductActions.updateProductsBulkSuccess, (state, { products }) => ({
+    ...state,
+    products: state.products.map(p => 
+      products.find(u => u.id === p.id) ?? p
+    ),
+  })),
+
+  on(ProductActions.deleteProductsBulkSuccess, (state, { deleted }) => ({
+    ...state,
+    products: state.products.filter((_, i) => i >= deleted), 
+  })),
 );

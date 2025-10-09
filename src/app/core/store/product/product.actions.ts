@@ -19,5 +19,17 @@ export const ProductActions = createActionGroup({
     'Delete Product': props<{ id: number }>(),
     'Delete Product Success': props<{ id: number }>(),
     'Delete Product Failure': props<{ error: string }>(),
+
+    'Add Products Bulk': props<{ products: CreateProductRequest[] }>(),
+    'Add Products Bulk Success': props<{ products: ProductListItem[] }>(),
+    'Add Products Bulk Failure': props<{ error: string }>(),
+
+    'Update Products Bulk': props<{ products: UpdateProductRequest[] }>(),
+    'Update Products Bulk Success': props<{ products: ProductListItem[] }>(),
+    'Update Products Bulk Failure': props<{ error: string }>(),
+
+    'Delete Products Bulk': props<{ ids: number[] }>(),
+    'Delete Products Bulk Success': props<{ deleted: number }>(),
+    'Delete Products Bulk Failure': props<{ error: string }>(),
   },
 });

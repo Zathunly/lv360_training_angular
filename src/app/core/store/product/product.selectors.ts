@@ -13,3 +13,9 @@ export const selectProductLoading = createSelector(
   selectProductState,
   state => state?.loading ?? false
 );
+
+// optional helper selectors
+export const selectProductCount = createSelector(
+  selectProductState,
+  state => state.products.length
+);

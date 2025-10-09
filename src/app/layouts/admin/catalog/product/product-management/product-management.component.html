@@ -18,10 +18,10 @@
 
 <app-editable-table
   [columns]="columns"
-  [data]="(products$ | async) ?? []"
+  [data]="products" 
   [massEditMode]="massEditMode"
   (saveAll)="saveAllChanges($event)"
-  (delete)="openDeleteModal($event)" 
+  (delete)="openDeleteModal($event)"
   (edit)="openEdit($event)"
 ></app-editable-table>
 

@@ -1,0 +1,30 @@
+<header class="base-header">
+  <div class="logo">
+    <img *ngIf="icon" [src]="icon" alt="icon" class="header-icon" />
+    <span class="title">{{ title }}</span>
+  </div>
+
+  <nav class="nav-links">
+    <ng-container *ngFor="let link of links">
+      <a
+        *ngIf="link.path"
+        [routerLink]="link.path"
+        (click)="linkClicked.emit(link)"
+        class="nav-link"
+      >
+        <i *ngIf="link.icon" [class]="link.icon"></i>
+        {{ link.label }}
+      </a>
+
+      <button
+        *ngIf="!link.path && link.click"
+        type="button"
+        (click)="link.click(); linkClicked.emit(link)"
+        class="nav-link btn-link"
+      >
+        <i *ngIf="link.icon" [class]="link.icon"></i>
+        {{ link.label }}
+      </button>
+    </ng-container>
+  </nav>
+</header>

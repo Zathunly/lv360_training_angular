@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { EditableTableComponent } from '../../../../../shared/components/table/editable-table/editable-table.component';
@@ -14,20 +14,35 @@ import { EditableTableColumn } from '../../../../../shared/components/table/edit
 import { ProductListItem } from '../../../../../core/services/product/product.types';
 import { ProductActions } from '../../../../../core/store/product/product.actions';
 import { CategoryActions } from '../../../../../core/store/category/category.actions';
-import { selectAllProducts, selectProductLoading } from '../../../../../core/store/product/product.selectors';
-import { selectAllCategories, selectCategoryLoading } from '../../../../../core/store/category/category.selectors';
+import {
+  selectAllProducts,
+  selectProductLoading,
+} from '../../../../../core/store/product/product.selectors';
+import {
+  selectAllCategories,
+  selectCategoryLoading,
+} from '../../../../../core/store/category/category.selectors';
 
 @Component({
   selector: 'app-product-table',
   standalone: true,
-  imports: [CommonModule, FormsModule, EditableTableComponent, ButtonComponent, BaseModalComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    EditableTableComponent,
+    ButtonComponent,
+    BaseModalComponent,
+  ],
   templateUrl: './product-management.component.html',
   styleUrls: ['./product-management.component.scss'],
 })
-export class ProductTableComponent implements OnInit {
+export class ProductTableComponent implements OnInit, OnDestroy {
   products$!: Observable<ProductListItem[]>;
+  products: ProductListItem[] = []; 
   categories$!: Observable<any[]>;
   loading$!: Observable<boolean>;
+
+  private productsSub?: Subscription;
 
   columns: EditableTableColumn[] = [];
   massEditMode = false;
@@ -52,7 +67,11 @@ export class ProductTableComponent implements OnInit {
     this.store.dispatch(ProductActions.loadProducts());
     this.store.dispatch(CategoryActions.loadCategories());
 
-    this.categories$.subscribe(categories => {
+    this.productsSub = this.products$.subscribe((p) => {
+      this.products = p.map((item) => ({ ...item }));
+    });
+
+    this.categories$.subscribe((categories) => {
       this.columns = [
         { field: 'id', header: 'ID', type: 'number', editable: false },
         { field: 'name', header: 'Name', type: 'text' },
@@ -61,7 +80,7 @@ export class ProductTableComponent implements OnInit {
           field: 'categoryId',
           header: 'Category',
           type: 'select',
-          options: categories.map(c => ({ id: c.id, name: c.name })),
+          options: categories.map((c) => ({ id: c.id, name: c.name })),
         },
         { field: 'actions', header: 'Actions', type: 'actions' },
       ];
@@ -70,22 +89,30 @@ export class ProductTableComponent implements OnInit {
 
   toggleMassEdit() {
     this.massEditMode = !this.massEditMode;
+
+    if (!this.massEditMode) {
+      this.store
+        .select(selectAllProducts)
+        .pipe(map((p) => p.map((item) => ({ ...item }))))
+        .subscribe((cloned) => (this.products = cloned))
+        .unsubscribe();
+    }
   }
 
   saveAllChanges(products: ProductListItem[]) {
-    products.forEach(p => {
-      this.store.dispatch(ProductActions.updateProduct({
-        id: p.id,
-        changes: {
-          name: p.name,
-          price: p.price,
-          categoryId: p.categoryId
-        }
-      }));
-    });
+    products.forEach(p => console.log(`Saving product ${p.id} with categoryId:`, p.categoryId));
 
+    const updates = products.map((p) => ({
+      id: p.id,
+      name: p.name,
+      price: p.price,
+      categoryId: p.categoryId,
+    }));
+
+    this.store.dispatch(ProductActions.updateProductsBulk({ products: updates }));
     this.massEditMode = false;
   }
+
 
   openDeleteModal(id: number) {
     this.selectedProductId = id;
@@ -102,7 +129,9 @@ export class ProductTableComponent implements OnInit {
 
   confirmDelete() {
     if (!this.selectedProductId) return;
-    this.store.dispatch(ProductActions.deleteProduct({ id: this.selectedProductId }));
+    this.store.dispatch(
+      ProductActions.deleteProduct({ id: this.selectedProductId })
+    );
     this.deleteModal.close();
   }
 
@@ -110,5 +139,7 @@ export class ProductTableComponent implements OnInit {
     this.selectedProductId = null;
   }
 
-
+  ngOnDestroy() {
+    this.productsSub?.unsubscribe();
+  }
 }

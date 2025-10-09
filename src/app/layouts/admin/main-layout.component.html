@@ -1,15 +1,27 @@
 <div class="layout" [class.collapsed]="sidebarCollapsed">
+
+  <!-- Sidebar -->
   <app-sidebar
     [collapsed]="sidebarCollapsed"
     [menuItems]="menuItems"
     (collapsedChange)="onSidebarToggle($event)">
   </app-sidebar>
-    
-  <header>
-    <app-breadcrumb></app-breadcrumb>
-  </header>
 
+  <!-- Header -->
+  <app-base-header
+    [title]="'Summit'"
+    [icon]="'assets/logo.png'"
+    [links]="headerLinks"
+    (linkClicked)="onHeaderLinkClicked($event)">
+  </app-base-header>
+
+  <div class="breadcrumb-wrapper">
+    <app-breadcrumb></app-breadcrumb>
+  </div>
+
+  <!-- Main content -->
   <main>
     <router-outlet></router-outlet>
   </main>
+  
 </div>

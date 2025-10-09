@@ -37,5 +37,19 @@
     deleteProduct(id: number): Observable<void> {
       return this.http.delete<void>(`${this.productsEndpoint}/${id}`);
     }
+
+    addProductsBulk(products: CreateProductRequest[]): Observable<ProductDetail[]> {
+      return this.http.post<ProductDetail[]>(`${this.productsEndpoint}/bulk`, products);
+    }
+
+    updateProductsBulk(products: UpdateProductRequest[]): Observable<ProductDetail[]> {
+      return this.http.put<ProductDetail[]>(`${this.productsEndpoint}/bulk`, products);
+    }
+
+    deleteProductsBulk(ids: number[]): Observable<{ deleted: number }> {
+      return this.http.request<{ deleted: number }>('delete', `${this.productsEndpoint}/bulk`, {
+        body: ids
+      });
+}
   }
 

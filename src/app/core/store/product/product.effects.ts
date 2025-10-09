@@ -58,4 +58,40 @@ export class ProductEffects {
       )
     )
   );
+
+  addProductsBulk$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductActions.addProductsBulk),
+      mergeMap(({ products }) =>
+        this.productService.addProductsBulk(products).pipe(
+          map(response => ProductActions.addProductsBulkSuccess({ products: response })),
+          catchError(error => of(ProductActions.addProductsBulkFailure({ error: error.message })))
+        )
+      )
+    )
+  );
+
+  updateProductsBulk$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductActions.updateProductsBulk),
+      mergeMap(({ products }) =>
+        this.productService.updateProductsBulk(products).pipe(
+          map(response => ProductActions.updateProductsBulkSuccess({ products: response })),
+          catchError(error => of(ProductActions.updateProductsBulkFailure({ error: error.message })))
+        )
+      )
+    )
+  );
+
+  deleteProductsBulk$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductActions.deleteProductsBulk),
+      mergeMap(({ ids }) =>
+        this.productService.deleteProductsBulk(ids).pipe(
+          map(response => ProductActions.deleteProductsBulkSuccess({ deleted: response.deleted })),
+          catchError(error => of(ProductActions.deleteProductsBulkFailure({ error: error.message })))
+        )
+      )
+    )
+  );
 }

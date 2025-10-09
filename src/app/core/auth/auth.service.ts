@@ -9,6 +9,11 @@ export interface LoginResponse {
   roles: string[];
 }
 
+export interface RegisterResponse {
+  id: string | number;
+  roles: string | string[];
+}
+
 export interface MeResponse {
   username?: string;
   roles: string[];
@@ -26,8 +31,8 @@ export class AuthService {
     });
   }
 
-  register(data: { username: string; password: string }) {
-    return this.http.post(`${this.apiUrl}/register`, data, {
+  register(data: { username: string; password: string }): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>(`${this.apiUrl}/register/user`, data, {
       withCredentials: true
     });
   }
