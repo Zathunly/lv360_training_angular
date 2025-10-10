@@ -1,5 +1,5 @@
 // src/app/core/store/product/product.state.ts
-import { ProductListItem } from '../../services/product/product.types';
+import { ProductListItem } from '../../services/api/product/product.types';
 
 // State interface
 export interface ProductState {

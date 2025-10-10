@@ -1,4 +1,4 @@
-import { StockDetail } from '../../../core/services/stock/stock.types';
+import { StockDetail } from '../../../core/services/api/stock/stock.types';
 
 export interface StockState {
   stocks: StockDetail[];

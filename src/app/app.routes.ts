@@ -8,6 +8,9 @@ import { ProductFormComponent } from './layouts/admin/catalog/product/product-fo
 import { ProductComponent } from './layouts/admin/catalog/product/product.component';
 import { StockComponent } from './layouts/admin/catalog/stock/stock.component';
 import { StockManagementComponent } from './layouts/admin/catalog/stock/stock-management.html/stock-management.component';
+import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found';
+import { ProductExistsGuard } from './core/guard/product-exist-rollback.guard';
+import { authGuard } from './core/auth/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -18,12 +21,10 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
+    canActivate: [authGuard], 
     children: [
-      {
-        path: 'dashboard',
-        component: DashboardComponent,
-        data: { breadcrumb: 'Dashboard' },
-      },
+      { path: 'dashboard', component: DashboardComponent, data: { breadcrumb: 'Dashboard' } },
+
       {
         path: 'catalog',
         data: { breadcrumb: 'Catalog' },
@@ -33,21 +34,9 @@ export const routes: Routes = [
             component: ProductComponent,
             data: { breadcrumb: 'Products' },
             children: [
-              {
-                path: '',
-                component: ProductTableComponent,
-                data: { breadcrumb: 'Products' },
-              },
-              {
-                path: 'add',
-                component: ProductFormComponent,
-                data: { breadcrumb: 'Add Product' },
-              },
-              {
-                path: 'edit/:id',
-                component: ProductFormComponent,
-                data: { breadcrumb: 'Edit Product' },
-              },
+              { path: '', component: ProductTableComponent, data: { breadcrumb: 'Products' } },
+              { path: 'add', component: ProductFormComponent, data: { breadcrumb: 'Add Product' } },
+              { path: 'edit/:id', component: ProductFormComponent, canActivate: [ProductExistsGuard], }
             ],
           },
           {
@@ -55,24 +44,14 @@ export const routes: Routes = [
             component: StockComponent,
             data: { breadcrumb: 'Stocks' },
             children: [
-              {
-                path: '',
-                component: StockManagementComponent,
-                data: { breadcrumb: 'Stock Management' },
-
-              },
+              { path: '', component: StockManagementComponent, data: { breadcrumb: 'Stock Management' } },
             ],
           },
         ],
       },
-      // {
-      //   path: 'profile',
-      //   component: ProfileComponent,
-      //   data: { breadcrumb: 'Profile' },
-      // },
     ],
   },
 
-  // Wildcard fallback
-  { path: '**', redirectTo: 'login' },
+  { path: '**', component: PageNotFoundComponent },
 ];
+

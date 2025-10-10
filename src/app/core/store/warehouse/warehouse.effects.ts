@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { WarehouseService } from '../../services/warehouse/warehouse.service';
+import { WarehouseService } from '../../services/api/warehouse/warehouse.service';
 import { WarehouseActions } from './warehouse.actions';
 import { catchError, map, mergeMap, of } from 'rxjs';
 

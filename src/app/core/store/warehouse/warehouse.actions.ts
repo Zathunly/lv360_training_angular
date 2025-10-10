@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { WarehouseDetail, CreateWarehouseRequest, UpdateWarehouseRequest } from '../../services/warehouse/warehouse.types';
+import { WarehouseDetail, CreateWarehouseRequest, UpdateWarehouseRequest } from '../../services/api/warehouse/warehouse.types';
 
 export const WarehouseActions = createActionGroup({
   source: 'Warehouse',

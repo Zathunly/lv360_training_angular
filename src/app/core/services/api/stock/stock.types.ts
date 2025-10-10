@@ -22,3 +22,11 @@ export interface UpdateStockRequest
   warehouseId?: number
   quantity?: number
 }
+
+export interface UpdateStockBulkRequest
+{
+  id: number,
+  productId?: number
+  warehouseId?: number
+  quantity?: number
+}

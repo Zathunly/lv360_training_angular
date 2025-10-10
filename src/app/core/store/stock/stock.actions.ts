@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { StockDetail, CreateStockRequest, UpdateStockRequest } from '../../../core/services/stock/stock.types';
+import { StockDetail, CreateStockRequest, UpdateStockRequest, UpdateStockBulkRequest } from '../../../core/services/api/stock/stock.types';
 
 export const StockActions = createActionGroup({
   source: 'Stock',
@@ -19,5 +19,13 @@ export const StockActions = createActionGroup({
     'Delete Stock': props<{ id: number }>(),
     'Delete Stock Success': props<{ id: number }>(),
     'Delete Stock Failure': props<{ error: any }>(),
+
+    'Update Stock Bulk': props<{ stocks: UpdateStockBulkRequest[] }>(),
+    'Update Stock Bulk Success': props<{ stocks: StockDetail[] }>(),
+    'Update Stock Bulk Failure': props<{ error: any }>(),
+
+    'Delete Stock Bulk': props<{ ids: number[] }>(),
+    'Delete Stock Bulk Success': props<{ ids: number[] }>(),
+    'Delete Stock Bulk Failure': props<{ error: any }>(),
   },
 });

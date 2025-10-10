@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { StockService } from '../../services/stock/stock.service';
+import { StockService } from '../../services/api/stock/stock.service';
 import { StockActions } from './stock.actions';
 import { catchError, map, mergeMap, of } from 'rxjs';
 
@@ -59,6 +59,30 @@ export class StockEffects {
           catchError(error =>
             of(StockActions.deleteStockFailure({ error: error.message || 'Failed to delete stock' }))
           )
+        )
+      )
+    )
+  );
+
+  updateStockBulk$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(StockActions.updateStockBulk),
+      mergeMap(action =>
+        this.stockService.updateBulk(action.stocks).pipe(
+          map(stocks => StockActions.updateStockBulkSuccess({ stocks })),
+          catchError(error => of(StockActions.updateStockBulkFailure({ error })))
+        )
+      )
+    )
+  );
+
+  deleteStockBulk$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(StockActions.deleteStockBulk),
+      mergeMap(action =>
+        this.stockService.deleteBulk(action.ids).pipe(
+          map(() => StockActions.deleteStockBulkSuccess({ ids: action.ids })),
+          catchError(error => of(StockActions.deleteStockBulkFailure({ error })))
         )
       )
     )

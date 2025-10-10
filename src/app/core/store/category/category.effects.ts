@@ -1,7 +1,7 @@
 // src/app/core/store/category/category.effects.ts
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { CategoryService } from '../../services/category/category.service';
+import { CategoryService } from '../../services/api/category/category.service';
 import { CategoryActions } from './category.actions';
 import { mergeMap, map, catchError, of } from 'rxjs';
 

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../environments/environment';
-import { StockDetail, CreateStockRequest, UpdateStockRequest } from './stock.types';
+import { environment } from '../../../../../environments/environment';
+import { StockDetail, CreateStockRequest, UpdateStockRequest, UpdateStockBulkRequest } from './stock.types';
 
 @Injectable({ providedIn: 'root' })
 export class StockService {
@@ -29,5 +29,13 @@ export class StockService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.stockEndpoint}/${id}`);
+  }
+
+  updateBulk(requests: UpdateStockBulkRequest[]): Observable<StockDetail[]> {
+    return this.http.put<StockDetail[]>(`${this.stockEndpoint}/bulk`, requests);
+  }
+
+  deleteBulk(ids: number[]): Observable<void> {
+    return this.http.request<void>('delete', `${this.stockEndpoint}/bulk`, { body: ids });
   }
 }

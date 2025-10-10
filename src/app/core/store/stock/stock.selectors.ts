@@ -17,3 +17,8 @@ export const selectStockError = createSelector(
   selectStockState,
   (state) => state.error
 );
+
+export const selectStockById = (id: number) => createSelector(
+  selectStockState,
+  (state: StockState) => state.stocks.find(s => s.id === id)
+);

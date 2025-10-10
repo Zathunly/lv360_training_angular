@@ -1,30 +1,16 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, Router, ActivatedRouteSnapshot } from '@angular/router';
-import { AuthService, MeResponse } from './auth.service';
-import { map, catchError, of } from 'rxjs';
+import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from './auth.service';
+import { map, catchError, of, tap } from 'rxjs';
 
-export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
+export const authGuard: CanActivateFn = () => {
   const auth = inject(AuthService);
   const router = inject(Router);
 
-  const expectedRoles: string[] = route.data?.['roles'] || [];
-
   return auth.checkSession().pipe(
-    map((res: MeResponse) => {
-      if (!res || !res.username) {
-        router.navigate(['/login']);
-        return false;
-      }
-
-      if (expectedRoles.length > 0) {
-        const hasRole = (res.roles || []).some(r => expectedRoles.includes(r));
-        if (!hasRole) {
-          router.navigate(['/login']); 
-          return false;
-        }
-      }
-
-      return true;
+    map(isLoggedIn => {
+      if (!isLoggedIn) router.navigate(['/login']);
+      return !!isLoggedIn;
     }),
     catchError(() => {
       router.navigate(['/login']);

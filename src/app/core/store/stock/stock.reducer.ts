@@ -30,5 +30,20 @@ export const stockReducer = createReducer(
   on(StockActions.deleteStockSuccess, (state, { id }) => ({
     ...state,
     stocks: state.stocks.filter(s => s.id !== id),
-  }))
+  })),
+
+  on(StockActions.updateStockBulkSuccess, (state, { stocks }) => ({
+    ...state,
+    stocks: state.stocks.map(s => {
+      const updated = stocks.find(u => u.id === s.id);
+      return updated ? updated : s;
+    })
+  })),
+  on(StockActions.updateStockBulkFailure, (state, { error }) => ({ ...state, error })),
+
+  on(StockActions.deleteStockBulkSuccess, (state, { ids }) => ({
+    ...state,
+    stocks: state.stocks.filter(s => !ids.includes(s.id))
+  })),
+  on(StockActions.deleteStockBulkFailure, (state, { error }) => ({ ...state, error })),
 );

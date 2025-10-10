@@ -1,4 +1,4 @@
-import { Category } from '../../services/category/category.types';
+import { Category } from '../../services/api/category/category.types';
 
 export interface CategoryState {
   categories: Category[];

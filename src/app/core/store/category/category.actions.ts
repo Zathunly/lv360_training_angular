@@ -1,5 +1,5 @@
 import { createActionGroup, props, emptyProps } from '@ngrx/store';
-import { Category, CreateCategoryRequest, UpdateCategoryRequest } from '../../services/category/category.types';
+import { Category, CreateCategoryRequest, UpdateCategoryRequest } from '../../services/api/category/category.types';
 
 export const CategoryActions = createActionGroup({
   source: 'Category',

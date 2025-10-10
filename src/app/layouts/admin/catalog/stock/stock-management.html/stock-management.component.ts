@@ -11,7 +11,7 @@ import { BaseModalComponent } from '../../../../../shared/components/modal/base-
 import { ButtonComponent } from '../../../../../shared/components/button/button.component';
 import { EditableTableColumn } from '../../../../../shared/components/table/editable-table/editable-table.component.types';
 
-import { StockDetail } from '../../../../../core/services/stock/stock.types';
+import { StockDetail, UpdateStockBulkRequest } from '../../../../../core/services/api/stock/stock.types';
 import { StockActions } from '../../../../../core/store/stock/stock.actions';
 import { ProductActions } from '../../../../../core/store/product/product.actions';
 import { WarehouseActions } from '../../../../../core/store/warehouse/warehouse.actions';
@@ -38,7 +38,6 @@ export class StockManagementComponent implements OnInit {
   constructor(private store: Store, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    // Dispatch loads
     this.store.dispatch(ProductActions.loadProducts());
     this.store.dispatch(WarehouseActions.loadWarehouses());
     this.store.dispatch(StockActions.loadStocks());
@@ -55,11 +54,13 @@ export class StockManagementComponent implements OnInit {
           const matchedWarehouse = warehouses.find(w => w.id === stock.warehouse?.id);
 
           return {
-            ...stock,
+            id: stock.id,
             productId: matchedProduct?.id ?? null,
             warehouseId: matchedWarehouse?.id ?? null,
             productName: matchedProduct?.name ?? null,
-            warehouseName: matchedWarehouse?.name ?? null,  
+            warehouseName: matchedWarehouse?.name ?? null,
+            quantity: stock.quantity,
+            lastUpdatedAt: stock.lastUpdatedAt,
           };
         })
       )
@@ -82,11 +83,7 @@ export class StockManagementComponent implements OnInit {
         options: [],
       },
       { field: 'quantity', header: 'Quantity', type: 'number', editable: true },
-      { field: 'lastUpdatedAt', 
-        header: 'Last Updated',
-        type: 'datetime',
-        editable: true,
-      },
+      { field: 'lastUpdatedAt', header: 'Last Updated', type: 'datetime', editable: false },
       { field: 'actions', header: 'Actions', type: 'actions' },
     ];
 
@@ -99,19 +96,20 @@ export class StockManagementComponent implements OnInit {
     });
   }
 
+
   toggleMassEdit() {
     this.massEditMode = !this.massEditMode;
   }
+  
+  saveAllChanges(stocks: UpdateStockBulkRequest[]) {
+    const updates: UpdateStockBulkRequest[] = stocks.map(stock => ({
+      id: stock.id,
+      productId: stock.productId,
+      warehouseId: stock.warehouseId,
+      quantity: stock.quantity,
+    }));
 
-  saveAllChanges(stocks: StockDetail[]) {
-    stocks.forEach(stock => {
-      this.store.dispatch(
-        StockActions.updateStock({
-          id: stock.id,
-          request: { quantity: stock.quantity },
-        })
-      );
-    });
+    this.store.dispatch(StockActions.updateStockBulk({ stocks: updates }));
     this.massEditMode = false;
   }
 

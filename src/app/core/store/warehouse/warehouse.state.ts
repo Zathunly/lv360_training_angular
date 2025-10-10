@@ -1,4 +1,4 @@
-import { WarehouseDetail } from '../../../core/services/warehouse/warehouse.types';
+import { WarehouseDetail } from '../../../core/services/api/warehouse/warehouse.types';
 
 export interface WarehouseState {
   warehouses: WarehouseDetail[];

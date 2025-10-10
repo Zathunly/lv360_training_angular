@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ProductService } from '../../../../../core/services/product/product.service';
-import { CategoryService } from '../../../../../core/services/category/category.service';
-import { CreateProductRequest, ProductDetail } from '../../../../../core/services/product/product.types';
+import { ProductService } from '../../../../../core/services/api/product/product.service';
+import { CategoryService } from '../../../../../core/services/api/category/category.service';
+import { CreateProductRequest, ProductDetail } from '../../../../../core/services/api/product/product.types';
 import { BaseFormComponent } from '../../../../../shared/components/form/base-form.component';
 import { BaseFormField } from '../../../../../shared/components/form/base-form.component.types';
 import { ActivatedRoute } from '@angular/router';

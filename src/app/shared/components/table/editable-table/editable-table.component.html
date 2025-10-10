@@ -50,7 +50,7 @@
           <ng-container *ngSwitchCase="'select'">
             <ng-container *ngIf="massEditMode && col.editable !== false; else readonlySelect">
               <select [(ngModel)]="row[col.field]">
-                <option *ngFor="let opt of col.options" [value]="opt.id">
+                <option *ngFor="let opt of col.options" [ngValue]="opt.id">
                   {{ opt.name }}
                 </option>
               </select>

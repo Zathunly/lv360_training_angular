@@ -18,14 +18,12 @@ export class LoginComponent {
 
   error = '';
 
-  // Define the fields for the BaseFormComponent
   fields: BaseFormField[] = [
     { name: 'username', type: 'text', placeholder: 'Enter your username', required: true, minLength: 3 },
     { name: 'password', type: 'text', placeholder: 'Enter your password', required: true },
   ];
 
 
-  // Optional: initial model values
   model = {
     username: '',
     password: ''

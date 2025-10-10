@@ -11,7 +11,7 @@ import { BaseModalComponent } from '../../../../../shared/components/modal/base-
 import { ButtonComponent } from '../../../../../shared/components/button/button.component';
 import { EditableTableColumn } from '../../../../../shared/components/table/editable-table/editable-table.component.types';
 
-import { ProductListItem } from '../../../../../core/services/product/product.types';
+import { ProductListItem } from '../../../../../core/services/api/product/product.types';
 import { ProductActions } from '../../../../../core/store/product/product.actions';
 import { CategoryActions } from '../../../../../core/store/category/category.actions';
 import {
@@ -100,8 +100,6 @@ export class ProductTableComponent implements OnInit, OnDestroy {
   }
 
   saveAllChanges(products: ProductListItem[]) {
-    products.forEach(p => console.log(`Saving product ${p.id} with categoryId:`, p.categoryId));
-
     const updates = products.map((p) => ({
       id: p.id,
       name: p.name,
